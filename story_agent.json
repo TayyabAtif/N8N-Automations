@@ -1,0 +1,143 @@
+{
+  "name": "story agent",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "AI Chatbot",
+        "formDescription": "This is a form submission",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Username"
+            },
+            {
+              "fieldLabel": "Email"
+            },
+            {
+              "fieldLabel": "Description"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -80,
+        0
+      ],
+      "id": "d292bbad-cfea-4e42-83ba-f038b114d556",
+      "name": "On form submission",
+      "webhookId": "88193808-eaff-4d83-af7b-7cf3d614654a"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a creative and professional story writer. Based on the user's input, write a compelling and imaginative short story. Use vivid descriptions, strong narrative flow, and develop characters and setting based on the details provided.\n\nUser's Story Idea:\nTitle:{{ $json.Username }}\nDescription:{{ $json.Description }} \n\nWrite the story in a creative tone, around 300–500 words. Ensure the story has a clear beginning, middle, and end.\n\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        220,
+        0
+      ],
+      "id": "64efa251-a664-42fe-ad67-74cbcf806f93",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        180,
+        260
+      ],
+      "id": "dd1801fe-9aef-40c6-a236-4e14e9178501",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "BHZrzZiiDG4IlO6K",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "tayyabatiff@gmail.com",
+        "subject": "Introducing Our Professional AI Story Writing Agent",
+        "message": "I hope this message finds you well.\n\nWe’re excited to introduce a powerful and intelligent solution designed for creative writing — our AI Story Writing Agent. This professional-grade agent is built to craft engaging, imaginative, and high-quality stories based on user input, no matter how simple or complex the idea.\n\nLeveraging the advanced capabilities of an OpenAI language model, the agent takes a title, a brief description from the user and transforms it into a full, well-structured story. Whether you're looking to generate short fiction, fantasy narratives, sci-fi adventures, or any other genre, this AI agent is equipped to deliver compelling results with ease and creativity.\n\nThis tool is perfect for writers, marketers, educators, and anyone interested in storytelling. It can be seamlessly integrated into your existing workflows through a user-friendly form submission process and produces ready-to-use content within seconds.\n\nFeel free to reach out if you have any questions or would like a demo.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        580,
+        0
+      ],
+      "id": "4d942f7c-5b8f-496c-ae74-668a1bf3fd4b",
+      "name": "Gmail",
+      "webhookId": "5d7d95af-6c05-4132-beb1-c81a9c9d27aa",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "mpR41gCWjDpEDTlc",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "5b648243-7935-47bc-ab62-f8ecd9786868",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c3c3339403e77b7c7411d588acd1f4f06b66e516afc13c8cc14da5d9610296cf"
+  },
+  "id": "gi3wDCDsouIHOH80",
+  "tags": []
+}
